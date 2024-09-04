@@ -1,29 +1,33 @@
-# Function to insert a new key into the BST
-def insert_bst(root, key):
+import random
+
+class TreeNode:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+
+def insert(root, key):
     if root is None:
-        return {'val': key, 'left': None, 'right': None}
-    if key < root['val']:
-        root['left'] = insert_bst(root['left'], key)
+        return TreeNode(key)
     else:
-        root['right'] = insert_bst(root['right'], key)
+        if root.val < key:
+            root.right = insert(root.right, key)
+        else:
+            root.left = insert(root.left, key)
     return root
 
-# Function for in-order traversal
-def inorder_traversal_bst(root):
-    if root is None:
-        return []
-    return inorder_traversal_bst(root['left']) + [root['val']] + inorder_traversal_bst(root['right'])
+def inorder_traversal(root):
+    return inorder_traversal(root.left) + [root.val] + inorder_traversal(root.right) if root else []
 
 # Generate a random array of size 15
-import random
 random_array = random.sample(range(1, 101), 15)
 print(f"Random Array: {random_array}")
 
-# Construct the BST using the nested dictionary approach
-bst_root = None
+# Construct BST
+root = None
 for num in random_array:
-    bst_root = insert_bst(bst_root, num)
+    root = insert(root, num)
 
-# Perform in-order traversal to get the sorted array
-sorted_array = inorder_traversal_bst(bst_root)
+# In-order traversal to get the sorted array
+sorted_array = inorder_traversal(root)
 print(f"Sorted Array: {sorted_array}")

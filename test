@@ -1,0 +1,21 @@
+def optimized_bubble(arr):
+    n=len(arr)
+    comparisons=0
+    i=0
+    swap=True
+    while(swap):
+        swap=False
+        for j in range (n-i-1):
+            comparisons=comparisons+1
+            if arr[j]>arr[j+1]:
+                arr[j],arr[j+1]=arr[j+1],arr[j]
+                swap=True
+        i=i+1
+    return arr,comparisons
+
+arr=[3,2,1,7,8]
+
+sorted_arr,comparisons=optimized_bubble(arr)
+
+print("Sorted Array: ",sorted_arr)
+print(f"Number of comparisons: {comparisons}")

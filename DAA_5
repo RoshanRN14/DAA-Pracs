@@ -1,0 +1,117 @@
+Fibonacci 
+
+def fibonacci_dp(n):
+    if n <= 1:
+        return n
+    dp = [0] * (n+1)
+    dp[0] = 0
+    dp[1] = 1
+    for i in range(2, n+1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp
+
+
+
+
+# Heapify function for Min-Heap
+def min_heapify(arr, n, i):
+    smallest = i  # Initialize the smallest as root
+    left = 2 * i + 1  # left child
+    right = 2 * i + 2  # right child
+
+    # If left child is smaller than root
+    if left < n and arr[left] < arr[smallest]:
+        smallest = left
+
+    # If right child is smaller than smallest so far
+    if right < n and arr[right] < arr[smallest]:
+        smallest = right
+
+    # If smallest is not root
+    if smallest != i:
+        arr[i], arr[smallest] = arr[smallest], arr[i]  # swap
+
+        # Recursively heapify the affected sub-tree
+        min_heapify(arr, n, smallest)
+
+# Function to build a Min-Heap
+def build_min_heap(arr, n):
+    # Index of the last non-leaf node
+    start_idx = n // 2 - 1
+
+    # Perform reverse level order traversal from last non-leaf node and heapify each node
+    for i in range(start_idx, -1, -1):
+        min_heapify(arr, n, i)
+
+# Heap sort using Min-Heap for Ascending Order
+def heap_sort_ascending(arr):
+    n = len(arr)
+
+    # Build a Min-Heap
+    build_min_heap(arr, n)
+
+    # Extract elements one by one
+    for i in range(n-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # swap
+        min_heapify(arr, i, 0)
+
+    return arr
+
+# Example
+arr = [78, 2, 5, 23, 76, 12, 17]
+sorted_arr = heap_sort_ascending(arr.copy())
+print("Sorted in Ascending Order (Min-Heap):", sorted_arr)
+
+
+
+
+
+
+# Heapify function for Max-Heap
+def max_heapify(arr, n, i):
+    largest = i  # Initialize the largest as root
+    left = 2 * i + 1  # left child
+    right = 2 * i + 2  # right child
+
+    # If left child is larger than root
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+
+    # If right child is larger than largest so far
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+
+    # If largest is not root
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # swap
+
+        # Recursively heapify the affected sub-tree
+        max_heapify(arr, n, largest)
+
+# Function to build a Max-Heap
+def build_max_heap(arr, n):
+    # Index of the last non-leaf node
+    start_idx = n // 2 - 1
+
+    # Perform reverse level order traversal from last non-leaf node and heapify each node
+    for i in range(start_idx, -1, -1):
+        max_heapify(arr, n, i)
+
+# Heap sort using Max-Heap for Descending Order
+def heap_sort_descending(arr):
+    n = len(arr)
+
+    # Build a Max-Heap
+    build_max_heap(arr, n)
+
+    # Extract elements one by one
+    for i in range(n-1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]  # swap
+        max_heapify(arr, i, 0)
+
+    return arr
+
+# Example
+arr = [78, 2, 5, 23, 76, 12, 17]
+sorted_arr = heap_sort_descending(arr.copy())
+print("Sorted in Descending Order (Max-Heap):", sorted_arr)

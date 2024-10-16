@@ -1,0 +1,40 @@
+def job_sequencing(jobs):
+    # Sort jobs based on profit in descending order
+    jobs = sorted(jobs, key=lambda x: x[2], reverse=True)
+
+    n = len(jobs)
+    max_deadline = max(job[1] for job in jobs)
+
+    # Create a result array to store the sequence of jobs
+    result = [None] * max_deadline
+    # Track which slots are filled
+    slot_filled = [False] * max_deadline
+
+    total_profit = 0
+
+    # Iterate over all jobs
+    for job in jobs:
+        job_id, deadline, profit = job
+        # Find a slot for the job, starting from the last possible slot
+        for j in range(min(deadline, max_deadline) - 1, -1, -1):
+            if not slot_filled[j]:  # If the slot is free
+                slot_filled[j] = True
+                result[j] = job_id
+                total_profit += profit
+                break
+
+    # Filter out None values and display the scheduled jobs
+    scheduled_jobs = [job_id for job_id in result if job_id is not None]
+
+    return scheduled_jobs, total_profit
+
+# Example input
+jobs = [
+    ('J1', 2, 6),
+    ('J2', 1, 8),
+    ('J3', 1, 5),
+    ('J4', 2, 10)
+]
+
+scheduled_jobs, max_profit = job_sequencing(jobs)
+print(f"Scheduled Jobs: {scheduled_jobs}; Maximum Profit: {max_profit}")

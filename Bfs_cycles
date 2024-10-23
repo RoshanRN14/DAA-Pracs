@@ -1,0 +1,33 @@
+from collections import deque
+
+def bfs_detect_cycle(graph, start):
+    visited = set()  # Track visited nodes
+    parent = {start: None}  # Keep track of the parent of each node
+    queue = deque([start])  # Initialize the queue
+    
+    while queue:
+        vertex = queue.popleft()
+        
+        for neighbor in graph[vertex]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parent[neighbor] = vertex  # Set parent of neighbor
+                queue.append(neighbor)
+            elif parent[vertex] != neighbor:
+                # If an already visited node is found and it's not the parent, cycle detected
+                return True
+    
+    return False  # No cycle found
+
+# Example graph with a cycle
+graph_with_cycle = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+
+# Run the modified BFS to detect cycle
+print(bfs_detect_cycle(graph_with_cycle, 'A'))
